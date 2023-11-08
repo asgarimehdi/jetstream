@@ -15,6 +15,9 @@
                     <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+                    <x-nav-link href="{{ route('users') }}" :active="request()->routeIs('users')">
+                        users
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -90,6 +93,7 @@
                                     </button>
                                 </span>
                             @endif
+
                         </x-slot>
 
                         <x-slot name="content">
@@ -163,6 +167,9 @@
                 <!-- Account Management -->
                 <x-responsive-nav-link href="{{ route('profile.show') }}" :active="request()->routeIs('profile.show')">
                     {{ __('Profile') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link href="{{ route('users') }}" :active="request()->routeIs('users')">
+                    users
                 </x-responsive-nav-link>
 
                 @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
