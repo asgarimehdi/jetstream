@@ -18,6 +18,12 @@
                     <p class="mt-6 text-gray-500 leading-relaxed">
                         this is user manager table
                     </p>
+
+                   @foreach($users as $user)
+
+                    {{$user->id}} -
+                    {{$user->name}} <br/>
+                   @endforeach
                 </div>
             </div>
         </div>
