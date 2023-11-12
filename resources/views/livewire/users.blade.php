@@ -30,10 +30,11 @@
                             <div class="flex space-x-3 items-center">
                                 <label class="w-40 text-sm font-medium text-gray-900">User Type :</label>
                                 <select
-                                    wire:model.live="admin"
+                                    wire:model.live="role_id"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
                                     <option value="">All</option>
-                                    <option value="0">User</option>
+                                    <option value="3">Member</option>
+                                    <option value="2">User</option>
                                     <option value="1">Admin</option>
                                 </select>
                             </div>
@@ -52,7 +53,7 @@
                                     'displayName'=>'Username'
                                 ])
                                 @include('livewire.includes.table-sortable-th',[
-                                    'name'=>'is_admin',
+                                    'name'=>'role_id',
                                     'displayName'=>'Role'
                                 ])
                                 @include('livewire.includes.table-sortable-th',[
@@ -75,8 +76,8 @@
                                         class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{$user->name}}</th>
                                     <td class="px-4 py-3">{{$user->username}}</td>
-                                    <td class="px-4 py-3 {{$user->is_admin ? 'text-green-500' : 'text-blue-500'}} ">
-                                        {{$user->is_admin ? 'Admin' : 'Member'}}</td>
+                                    <td class="px-4 py-3 {{($user->role_id=='1') ? 'text-green-500' : 'text-blue-500'}} ">
+                                        {{$user->role->name}}</td>
                                     <td class="px-4 py-3">{{$user->created_at}}</td>
                                     <td class="px-4 py-3">{{$user->updated_at}}</td>
                                     <td class="px-4 py-3 flex items-center justify-end">

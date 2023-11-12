@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Couchbase\Scope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -59,7 +60,12 @@ class User extends Authenticatable
         'profile_photo_url',
     ];
 
-    public function scopeSearch($query,$value){
+    public function scopeSearch($query,$value)
+    {
         $query->where('name','like',"%{$value}%") ->orWhere('username','like',"%{$value}%");
+    }
+    public function role()
+    {
+        return $this->belongsTo(Roles::class, 'role_id');
     }
 }
