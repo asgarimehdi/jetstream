@@ -48,8 +48,8 @@
                                     'displayName'=>'Name'
                                 ])
                                 @include('livewire.includes.table-sortable-th',[
-                                    'name'=>'email',
-                                    'displayName'=>'Email'
+                                    'name'=>'username',
+                                    'displayName'=>'Username'
                                 ])
                                 @include('livewire.includes.table-sortable-th',[
                                     'name'=>'is_admin',
@@ -74,7 +74,7 @@
                                     <th scope="row"
                                         class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{$user->name}}</th>
-                                    <td class="px-4 py-3">{{$user->email}}</td>
+                                    <td class="px-4 py-3">{{$user->username}}</td>
                                     <td class="px-4 py-3 {{$user->is_admin ? 'text-green-500' : 'text-blue-500'}} ">
                                         {{$user->is_admin ? 'Admin' : 'Member'}}</td>
                                     <td class="px-4 py-3">{{$user->created_at}}</td>
