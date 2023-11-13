@@ -15,8 +15,11 @@ class Users extends Component
 
     #[Url(history: true)]
     public $search = '';
+
     #[Url(history: true)]
     public $role_id = '';
+    #[Url(history: true)]
+    public $group_id = '';
     #[Url(history: true)]
     public $sortBy = 'created_at';
     #[Url(history: true)]
@@ -25,8 +28,10 @@ class Users extends Component
     public $perPage = 5;
 
     public $roles='';
+    public $groups='';
     public function mount(){
         $this->roles=\App\Models\Roles::all();
+        $this->groups=\App\Models\Groups::all();
     }
     public function updatedSearch()
     {
@@ -34,6 +39,10 @@ class Users extends Component
     }
 
     public function updatedRoleId()
+    {
+        $this->resetPage();
+    }
+    public function updatedGroupId()
     {
         $this->resetPage();
     }
@@ -59,6 +68,9 @@ class Users extends Component
         $users = User::search($this->search)
             ->when($this->role_id !== '', function ($query) {
                 $query->where('role_id', $this->role_id);
+            })
+            ->when($this->group_id !== '', function ($query) {
+                $query->where('group_id', $this->group_id);
             })
             ->orderBy($this->sortBy, $this->sortDir)
             ->paginate($this->perPage);

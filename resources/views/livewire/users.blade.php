@@ -33,6 +33,13 @@
                                 'title'=>'User Type'
                             ])
                         </div>
+                        <div class="flex space-x-3">
+                            @include('livewire.includes.select-box',[
+                                'values'=>$groups,
+                                'form'=>'group_id',
+                                'title'=>'Group'
+                            ])
+                        </div>
                     </div>
                     <div class="overflow-x-auto">
                         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -51,8 +58,8 @@
                                     'displayName'=>'Role'
                                 ])
                                 @include('livewire.includes.table-sortable-th',[
-                                    'name'=>'created_at',
-                                    'displayName'=>'Joined'
+                                    'name'=>'group_id',
+                                    'displayName'=>'Group'
                                 ])
                                 @include('livewire.includes.table-sortable-th',[
                                     'name'=>'updated_at',
@@ -72,7 +79,7 @@
                                     <td class="px-4 py-3">{{$user->username}}</td>
                                     <td class="px-4 py-3 {{($user->role_id=='1') ? 'text-green-500' : 'text-blue-500'}} ">
                                         {{$user->role->name}}</td>
-                                    <td class="px-4 py-3">{{$user->created_at}}</td>
+                                    <td class="px-4 py-3">{{$user->group->name}}</td>
                                     <td class="px-4 py-3">{{$user->updated_at}}</td>
                                     <td class="px-4 py-3 flex items-center justify-end">
                                         <button onClick="confirm('Are you sure?')" wire:click="delete({{$user->id}})"
