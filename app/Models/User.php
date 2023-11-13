@@ -72,4 +72,8 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Groups::class, 'group_id');
     }
+    public function region_point()
+    {
+        return $this->belongsTo(Region_points::class,'point_id','id');
+    }
 }

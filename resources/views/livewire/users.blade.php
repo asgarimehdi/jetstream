@@ -62,8 +62,8 @@
                                     'displayName'=>'Group'
                                 ])
                                 @include('livewire.includes.table-sortable-th',[
-                                    'name'=>'updated_at',
-                                    'displayName'=>'Last update'
+                                    'name'=>'point_id',
+                                    'displayName'=>'County'
                                 ])
                                 <th scope="col" class="px-4 py-3">
                                     <span class="sr-only">Actions</span>
@@ -80,7 +80,7 @@
                                     <td class="px-4 py-3 {{($user->role_id=='1') ? 'text-green-500' : 'text-blue-500'}} ">
                                         {{$user->role->name}}</td>
                                     <td class="px-4 py-3">{{$user->group->name}}</td>
-                                    <td class="px-4 py-3">{{$user->updated_at}}</td>
+                                    <td class="px-4 py-3">{{$user->region_point->region_center->region_county->name}}</td>
                                     <td class="px-4 py-3 flex items-center justify-end">
                                         <button onClick="confirm('Are you sure?')" wire:click="delete({{$user->id}})"
                                                 class="px-3 py-1 bg-red-500 text-white rounded">X
