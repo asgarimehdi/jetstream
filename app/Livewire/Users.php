@@ -24,6 +24,10 @@ class Users extends Component
     #[Url()]
     public $perPage = 5;
 
+    public $roles='';
+    public function mount(){
+        $this->roles=\App\Models\Roles::all();
+    }
     public function updatedSearch()
     {
         $this->resetPage();
