@@ -11,15 +11,17 @@
     {{--    Gray Background--}}
     <div x-on:click="show=false" class="fixed inset-0 bg-gray-800 opacity-60"></div>
     {{--    Modal Body--}}
-    <div class="bg-white rounded m-auto fixed inset-0 max-w-2xl h-40">
+    <div class="bg-white rounded m-auto fixed inset-0 max-w-2xl h-60">
 
-        <div><button  x-on:click="$dispatch('close-modal')">X</button></div>
-        @if(isset($title))
-        <div class="py-3 flex items-center justify-center">
-            {{$title}}
+        <div>
+            <button x-on:click="$dispatch('close-modal')">X</button>
         </div>
+        @if(isset($title))
+            <div class="py-3 flex items-center justify-center">
+                {{$title}}
+            </div>
         @endif
-        <div>{{$body}}</div>
+        <div class="p-5" dir="rtl">{{$body}}</div>
 
     </div>
 </div>

@@ -29,6 +29,8 @@ class Users extends Component
 
     public $roles='';
     public $groups='';
+
+    public User $selectedUser;
     public function mount(){
         $this->roles=\App\Models\Roles::all();
         $this->groups=\App\Models\Groups::all();
@@ -61,7 +63,10 @@ class Users extends Component
         $this->sortBy = $sortByField;
         $this->sortDir = 'DESC'; // pishfarz desc sort kon
     }
-
+public function viewUser(User $user){
+    $this->selectedUser=$user;
+    $this->dispatch('open-modal',name:'user-details');
+}
 
     public function render()
     {

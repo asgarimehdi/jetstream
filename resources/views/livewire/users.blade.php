@@ -23,21 +23,21 @@
                                 </div>
                                 <input wire:model.live.debounce.300ms="search" type="text"
                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 "
-                                       placeholder="Search" required="">
+                                       placeholder="جستجو" required="">
                             </div>
                         </div>
                         <div class="flex space-x-3">
                             @include('livewire.includes.select-box',[
                                 'values'=>$roles,
                                 'form'=>'role_id',
-                                'title'=>'User Type'
+                                'title'=>'نقش'
                             ])
                         </div>
                         <div class="flex space-x-3">
                             @include('livewire.includes.select-box',[
                                 'values'=>$groups,
                                 'form'=>'group_id',
-                                'title'=>'Group'
+                                'title'=>'گروه'
                             ])
                         </div>
                     </div>
@@ -47,23 +47,23 @@
                             <tr>
                                 @include('livewire.includes.table-sortable-th',[
                                     'name'=>'name',
-                                    'displayName'=>'Name'
+                                    'displayName'=>'نام'
                                 ])
                                 @include('livewire.includes.table-sortable-th',[
                                     'name'=>'username',
-                                    'displayName'=>'Username'
+                                    'displayName'=>'نام کاربری'
                                 ])
                                 @include('livewire.includes.table-sortable-th',[
                                     'name'=>'role_id',
-                                    'displayName'=>'Role'
+                                    'displayName'=>'نقش'
                                 ])
                                 @include('livewire.includes.table-sortable-th',[
                                     'name'=>'group_id',
-                                    'displayName'=>'Group'
+                                    'displayName'=>'گروه'
                                 ])
                                 @include('livewire.includes.table-sortable-th',[
                                     'name'=>'point_id',
-                                    'displayName'=>'County'
+                                    'displayName'=>'شهرستان'
                                 ])
                                 <th scope="col" class="px-4 py-3">
                                     <span class="sr-only">Actions</span>
@@ -84,6 +84,14 @@
                                     <td class="px-4 py-3 flex items-center justify-end">
                                         <button onClick="confirm('Are you sure?')" wire:click="delete({{$user->id}})"
                                                 class="px-3 py-1 bg-red-500 text-white rounded">X
+                                        </button> -
+                                        <button  wire:click="viewUser({{$user->id}})"
+                                                 class="px-3 py-1 bg-green-500 text-white rounded">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-3 h-5">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                            </svg>
+
                                         </button>
                                     </td>
                                 </tr>
@@ -91,7 +99,20 @@
                             </tbody>
                         </table>
                     </div>
+{{--                    @if($selectedUser)--}}
+                    <x-my-modal name="user-details" :title="@$selectedUser->name">
+                        <x-slot:body>
+                           {{@$selectedUser->username}}
 
+                            <br>
+                            {{@$selectedUser->region_point->name}}
+                            <br>
+                            {{@$selectedUser->region_point->region_center->name}}
+                            <br>
+                            {{@$selectedUser->region_point->region_center->region_county->name}}
+                        </x-slot:body>
+                    </x-my-modal>
+{{--                    @endif--}}
                     <div class="py-4 px-3">
                         <div class="flex ">
                             <div class="flex space-x-4 items-center mb-3">
