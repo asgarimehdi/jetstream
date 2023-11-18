@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\CreateUser;
 use App\Livewire\Users;
 use Illuminate\Support\Facades\Route;
 
@@ -28,4 +29,7 @@ Route::middleware([
     })->name('dashboard');
 
     Route::get('/users', Users::class)->name('users');
+
+    Route::get('/create-user', CreateUser::class)->name('create-user');
+
 });

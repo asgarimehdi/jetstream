@@ -11,7 +11,7 @@
     {{--    Gray Background--}}
     <div x-on:click="show=false" class="fixed inset-0 bg-gray-800 opacity-60"></div>
     {{--    Modal Body--}}
-    <div class="bg-white rounded m-auto fixed inset-0 max-w-2xl h-60">
+    <div class="bg-white rounded m-auto fixed inset-0 max-w-2xl">
 
         <div>
             <button x-on:click="$dispatch('close-modal')">X</button>
