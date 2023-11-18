@@ -7,14 +7,14 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
+            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg" dir="rtl">
 
                 <x-my-modal name="test" title="Modal 2">
                     <x-slot:body>
                         متن اصلی تستی اول
                     </x-slot:body>
                 </x-my-modal>
-                <x-my-modal name="test3" title="Modal 3">
+                <x-my-modal name="new-user" title="کاربر جدید">
                     <x-slot:body>
                         <livewire:create-user/>
                     </x-slot:body>
@@ -22,11 +22,12 @@
                 <button x-data x-on:click="$dispatch('open-modal',{name:'test'})" class="px-3 py-1 bg-teal-500 text-white rounded">
                     Open Modal
                 </button>
-                <button x-data x-on:click="$dispatch('open-modal',{name:'test3'})" class="px-3 py-1 bg-teal-500 text-white rounded">
-                    Open Modal3
+                <button x-data x-on:click="$dispatch('open-modal',{name:'new-user'})" class="px-3 py-1 bg-teal-500 text-white rounded">
+                    new-user
                 </button>
+
+
                 <x-welcome />
-                <livewire:create-user/>
             </div>
         </div>
     </div>

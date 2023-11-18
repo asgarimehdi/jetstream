@@ -8,6 +8,9 @@
     <div>
         <section class="mt-10">
             <div class="mx-auto max-w-screen-xl px-4 lg:px-12">
+                <div class=" mx-auto bg-gradient-to-r from-green-200 via-green-100 to-green-200 relative shadow-lg sm:rounded-lg w-1/2" dir="rtl">
+                    <livewire:create-user/>
+                </div>
                 <!-- Start coding here -->
                 <div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
                     <div class="flex items-center justify-between d p-4">
@@ -26,16 +29,20 @@
                                        placeholder="جستجو" required="">
                             </div>
                         </div>
+
                         <div class="flex space-x-3">
                             @include('livewire.includes.select-box',[
                                 'values'=>$roles,
+                                'default'=>'همه',
                                 'form'=>'role_id',
                                 'title'=>'نقش'
                             ])
                         </div>
                         <div class="flex space-x-3">
+
                             @include('livewire.includes.select-box',[
                                 'values'=>$groups,
+                                'default'=>'همه',
                                 'form'=>'group_id',
                                 'title'=>'گروه'
                             ])
