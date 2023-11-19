@@ -9,24 +9,32 @@ use Livewire\Attributes\Rule;
 class CreateUser extends Component
 {
     public $roles = '';
+    #[Rule('required')]
     public $role_id = '';
     public $groups = '';
+    #[Rule('required')]
     public $group_id = '';
     public $types = '';
+    #[Rule('required')]
     public $type_id = '';
     public $counties = '';
+    #[Rule('required')]
     public $county_id = '';
     public $centers = '';
+    #[Rule('required')]
     public $center_id = '';
     public $points = '';
+    #[Rule('required')]
     public $point_id = '';
 
-    #[Rule('required|min:2|max:50')]
+    #[Rule('required|min:3|max:50')]
     public $username = '';
-    #[Rule('required|min:2|max:50')]
+    #[Rule('required|min:6|max:50')]
     public $name = '';
-    #[Rule('required|min:2|max:50')]
+    #[Rule('required|min:8|confirmed')]
     public $password = '';
+
+    public $password_confirmation = '';
 
     public function createUser()
     {
@@ -39,7 +47,7 @@ class CreateUser extends Component
             'group_id' => $this->group_id,
             'password' => Hash::make($this->password)
         ]);
-         $this->reset(['name','username','password','role_id','group_id','point_id','center_id','county_id','type_id']);
+         $this->reset(['name','username','password','password_confirmation','role_id','group_id','point_id','center_id','county_id','type_id']);
         request()->session()->flash('success', 'کاربر با موفقیت اضافه شد');
         $this->dispatch('close-modal',name:'new-user');
     }
