@@ -63,9 +63,9 @@ class Users extends Component
         $this->sortBy = $sortByField;
         $this->sortDir = 'DESC'; // pishfarz desc sort kon
     }
-public function viewUser(User $user){
+public function editUser(User $user){
     $this->selectedUser=$user;
-    $this->dispatch('open-modal',name:'user-details');
+    $this->dispatch('open-modal',name:'edit-user');
 }
 
     public function render()
