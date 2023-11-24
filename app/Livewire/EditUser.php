@@ -9,7 +9,8 @@ use Livewire\Attributes\Rule;
 
 class EditUser extends Component
 {
-    //public User $selectedUser;
+    /** @locked  */
+    public $id;
     public $roles = '';
     #[Rule('required')]
     public $role_id = '';
@@ -29,34 +30,40 @@ class EditUser extends Component
     #[Rule('required')]
     public $point_id = '';
 
-    #[Rule('required|min:3|max:50')]
+
     public $username = '';
     #[Rule('required|min:6|max:50')]
     public $name = '';
-    #[Rule('required|min:8|confirmed')]
+    #[Rule('required|min:8')]
     public $password = '';
 
-    public $password_confirmation = '';
-
-    public function createUser()
+    public function rules()
     {
-        $this->validate();
-        User::create([
-            'name' => $this->name,
-            'username' => $this->username,
-            'role_id' => $this->role_id,
-            'point_id' => $this->point_id,
-            'group_id' => $this->group_id,
-            'password' => Hash::make($this->password)
+        return [
+            'username' => 'required|string|max:20|min:3|unique:users,username,'.$this->id.',id',
+        ];
+    }
+    public function updateUser()
+    {
+        //error handling try catch must implement
+        $validatedData=$this->validate();
+        User::find($this->id)->update([
+            'name'=>$validatedData['name'],
+            'username' => $validatedData['username'],
+            'role_id' => $validatedData['role_id'],
+            'point_id' => $validatedData['point_id'],
+            'group_id' => $validatedData['group_id'],
+            'password' => Hash::make($validatedData['password'])
         ]);
-        $this->reset(['name', 'username', 'password', 'password_confirmation', 'role_id', 'group_id', 'point_id', 'center_id', 'county_id', 'type_id']);
-        request()->session()->flash('success', 'کاربر با موفقیت اضافه شد');
-        $this->dispatch('close-modal', name: 'new-user');
+        $this->reset(['name', 'username', 'password', 'role_id', 'group_id', 'point_id', 'center_id', 'county_id', 'type_id']);
+        request()->session()->flash('success', 'کاربر با موفقیت ویرایش شد');
+        $this->dispatch('close-modal', name: 'edit-user');
     }
 
     public function mount(User $selectedUser)
     {
 
+        $this->id=$selectedUser->id;
         $this->name = $selectedUser->name;
         $this->username = $selectedUser->username;
         $this->role_id = $selectedUser->role_id;
@@ -65,6 +72,8 @@ class EditUser extends Component
         $this->center_id = $selectedUser->region_point->center_id;
         $this->county_id = $selectedUser->region_point->region_center->county_id;
         $this->type_id = $selectedUser->region_point->type_id;
+//        $this->password = $selectedUser->password;
+//        $this->password_confirmation = $selectedUser->password;
         $this->roles = \App\Models\Roles::all();
         $this->groups = \App\Models\Groups::all();
         $this->counties = \App\Models\Region_counties::all();
@@ -82,18 +91,18 @@ class EditUser extends Component
     public function updatedtypeId()
     {
         $this->reset(['point_id', 'center_id']);
-
+        $this->centers = \App\Models\Region_centers::where('county_id', $this->county_id)->where('type_id', $this->type_id)->get();
     }
 
     public function updatedcenterId()
     {
         $this->reset(['point_id']);
-
+        $this->points = \App\Models\Region_points::where('center_id', $this->center_id)->get();
     }
 
     public function render()
     {
-        return view('livewire.create-user');
+        return view('livewire.edit-user');
     }
 
 }

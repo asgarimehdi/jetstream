@@ -27,7 +27,7 @@ class CreateUser extends Component
     #[Rule('required')]
     public $point_id = '';
 
-    #[Rule('required|min:3|max:50')]
+    #[Rule('required|string|max:20|min:3|unique:users,username,')]
     public $username = '';
     #[Rule('required|min:6|max:50')]
     public $name = '';
@@ -38,6 +38,7 @@ class CreateUser extends Component
 
     public function createUser()
     {
+        //error handling try catch must implement
         $this->validate();
         User::create([
             'name' => $this->name,
@@ -47,7 +48,7 @@ class CreateUser extends Component
             'group_id' => $this->group_id,
             'password' => Hash::make($this->password)
         ]);
-         $this->reset(['name','username','password','password_confirmation','role_id','group_id','point_id','center_id','county_id','type_id']);
+        $this->reset(['name','username','password','password_confirmation','role_id','group_id','point_id','center_id','county_id','type_id']);
         request()->session()->flash('success', 'کاربر با موفقیت اضافه شد');
         $this->dispatch('close-modal',name:'new-user');
     }

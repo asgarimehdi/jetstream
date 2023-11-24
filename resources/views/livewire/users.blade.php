@@ -9,13 +9,13 @@
         <section class="mt-10">
             <div class="mx-auto max-w-screen-xl px-4 lg:px-12">
                 <div
-                    class=" mx-auto bg-gradient-to-r from-green-200 via-green-100 to-green-200 relative shadow-lg sm:rounded-lg w-1/2"
+                    class=" mx-auto bg-gradient-to-r from-green-200 via-green-100 to-green-950 relative shadow-lg sm:rounded-lg w-1/2"
                     dir="rtl">
-                    <livewire:create-user/>
+{{--                    <livewire:create-user/>--}}
                 </div>
                 <!-- Start coding here -->
                 <div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
-                    <div class="flex items-center justify-between d p-4">
+                    <div class="flex items-center justify-between d p-4" dir="rtl">
                         <div class="flex">
                             <div class="relative w-full">
                                 <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
