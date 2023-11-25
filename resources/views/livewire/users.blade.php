@@ -3,7 +3,8 @@
         <h2 class="font-semibold text-xl text-gray-800 leading-tight text-center">
             مدیریت کاربران
         </h2>
-        <div dir="rtl" class="pr-4 pt-4">
+        @can('isAdmin')
+        <div dir="rtl" class="pr-4 pt-4" >
             <button x-data x-on:click="$dispatch('open-modal',{name:'new-user'})"
                     class="px-3 py-1 bg-teal-500 text-white rounded flex" dir="rtl">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -14,7 +15,7 @@
                 کاربر جدید
             </button>
         </div>
-
+        @endcan
     </x-slot>
 
     <div>

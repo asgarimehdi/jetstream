@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Models\Roles;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -29,9 +30,11 @@ class Users extends Component
 
     public $roles='';
     public $groups='';
+    public $county_id='';
 
     public User $selectedUser;
     public function mount(){
+
         $this->roles=\App\Models\Roles::all();
         $this->groups=\App\Models\Groups::all();
     }
@@ -70,15 +73,34 @@ public function editUser(User $user){
 
     public function render()
     {
-        $users = User::search($this->search)
-            ->when($this->role_id !== '', function ($query) {
-                $query->where('role_id', $this->role_id);
-            })
-            ->when($this->group_id !== '', function ($query) {
-                $query->where('group_id', $this->group_id);
-            })
-            ->orderBy($this->sortBy, $this->sortDir)
-            ->paginate($this->perPage);
+        $county_id=Auth::user()->region_point->region_center->county_id;
+        if (Gate::allows('isOstan')){
+            $users = User::search($this->search)
+                ->when($this->role_id !== '', function ($query) {
+                    $query->where('role_id', $this->role_id);
+                })
+                ->when($this->group_id !== '', function ($query) {
+                    $query->where('group_id', $this->group_id);
+                })
+                ->orderBy($this->sortBy, $this->sortDir)
+                ->paginate($this->perPage);
+        }
+        else {
+
+            $users = User::search($this->search)
+                ->when($this->role_id !== '', function ($query) {
+                    $query->where('role_id', $this->role_id);
+                })
+                ->when($this->group_id !== '', function ($query) {
+                    $query->where('group_id', $this->group_id);
+                })
+                ->whereHas('Region_point.Region_center', function ($q) use ($county_id) {
+                    // Query the name field in status table
+                    $q->where('county_id', '=', $county_id); // '=' is optional
+                })
+                ->orderBy($this->sortBy, $this->sortDir)
+                ->paginate($this->perPage);
+        }
         return view('livewire.users', ['users' => $users]);
     }
 }
