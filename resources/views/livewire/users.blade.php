@@ -40,7 +40,16 @@
                                        placeholder="جستجو" required="">
                             </div>
                         </div>
-
+                        @can('isOstan')
+                        <div class="flex space-x-3">
+                            @include('livewire.includes.select-box',[
+                                'values'=>$counties,
+                                'default'=>'همه',
+                                'form'=>'county_id',
+                                'title'=>'شهرستان'
+                            ])
+                        </div>
+                        @endcan
                         <div class="flex space-x-3">
                             @include('livewire.includes.select-box',[
                                 'values'=>$roles,

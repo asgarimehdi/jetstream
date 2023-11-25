@@ -22,6 +22,8 @@ class Users extends Component
     #[Url(history: true)]
     public $group_id = '';
     #[Url(history: true)]
+    public $county_id = '';
+    #[Url(history: true)]
     public $sortBy = 'created_at';
     #[Url(history: true)]
     public $sortDir = 'DESC';
@@ -30,13 +32,15 @@ class Users extends Component
 
     public $roles='';
     public $groups='';
-    public $county_id='';
+    public $counties='';
+    public $user_county_id='';
 
     public User $selectedUser;
     public function mount(){
 
         $this->roles=\App\Models\Roles::all();
         $this->groups=\App\Models\Groups::all();
+        $this->counties=\App\Models\Region_counties::all();
     }
     public function updatedSearch()
     {
@@ -73,7 +77,8 @@ public function editUser(User $user){
 
     public function render()
     {
-        $county_id=Auth::user()->region_point->region_center->county_id;
+        $user_county_id=Auth::user()->region_point->region_center->county_id;
+        $county_id=$this->county_id;
         if (Gate::allows('isOstan')){
             $users = User::search($this->search)
                 ->when($this->role_id !== '', function ($query) {
@@ -81,6 +86,12 @@ public function editUser(User $user){
                 })
                 ->when($this->group_id !== '', function ($query) {
                     $query->where('group_id', $this->group_id);
+                })
+                ->when($this->county_id !== '', function ($query) use ($county_id) {
+                    $query->whereHas('Region_point.Region_center', function ($q) use ($county_id) {
+                        // Query the name field in status table
+                        $q->where('county_id', '=', $county_id); // '=' is optional
+                    });
                 })
                 ->orderBy($this->sortBy, $this->sortDir)
                 ->paginate($this->perPage);
@@ -94,9 +105,9 @@ public function editUser(User $user){
                 ->when($this->group_id !== '', function ($query) {
                     $query->where('group_id', $this->group_id);
                 })
-                ->whereHas('Region_point.Region_center', function ($q) use ($county_id) {
+                ->whereHas('Region_point.Region_center', function ($q) use ($user_county_id) {
                     // Query the name field in status table
-                    $q->where('county_id', '=', $county_id); // '=' is optional
+                    $q->where('county_id', '=', $user_county_id); // '=' is optional
                 })
                 ->orderBy($this->sortBy, $this->sortDir)
                 ->paginate($this->perPage);
