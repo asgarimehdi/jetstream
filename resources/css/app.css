@@ -1,7 +1,13 @@
+@import 'vazirmatn/Vazirmatn-font-face.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
 [x-cloak] {
     display: none;
+}
+
+.vazirmatn {
+    font-family: Vazirmatn, Tahoma;
+    font-weight: 400;
 }
