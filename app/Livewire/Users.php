@@ -28,7 +28,7 @@ class Users extends Component
     #[Url(history: true)]
     public $sortDir = 'DESC';
     #[Url()]
-    public $perPage = 5;
+    public $perPage = 20;
 
     public $roles='';
     public $groups='';

@@ -1,20 +1,20 @@
-<div>
+<div dir="rtl">
     <x-slot name="header">
         <h2 class="text-xl text-gray-800 leading-tight text-center vazirmatn">
             مدیریت کاربران
         </h2>
         @can('isAdmin')
-        <div dir="rtl" class="pr-4 pt-4" >
-            <button x-data x-on:click="$dispatch('open-modal',{name:'new-user'})"
-                    class="px-3 py-1 bg-teal-500 text-white rounded flex" dir="rtl">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                     stroke="currentColor" class="w-6 h-6">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                          d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                </svg>
-                کاربر جدید
-            </button>
-        </div>
+            <div dir="rtl" class="pr-4 pt-4">
+                <button x-data x-on:click="$dispatch('open-modal',{name:'new-user'})"
+                        class="px-3 py-1 bg-teal-500 text-white rounded flex" dir="rtl">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                         stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                              d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    کاربر جدید
+                </button>
+            </div>
         @endcan
     </x-slot>
 
@@ -41,14 +41,14 @@
                             </div>
                         </div>
                         @can('isOstan')
-                        <div class="flex space-x-3">
-                            @include('livewire.includes.select-box',[
-                                'values'=>$counties,
-                                'default'=>'همه',
-                                'form'=>'county_id',
-                                'title'=>'شهرستان'
-                            ])
-                        </div>
+                            <div class="flex space-x-3">
+                                @include('livewire.includes.select-box',[
+                                    'values'=>$counties,
+                                    'default'=>'همه',
+                                    'form'=>'county_id',
+                                    'title'=>'شهرستان'
+                                ])
+                            </div>
                         @endcan
                         <div class="flex space-x-3">
                             @include('livewire.includes.select-box',[
@@ -99,7 +99,7 @@
                             </thead>
                             <tbody>
                             @foreach($users as $user)
-                                <tr wire:key="{{$user->id}}" class="border-b dark:border-gray-700">
+                                <tr wire:key="{{$user->id}}" class="border-b dark:border-gray-700 text-right">
                                     <th scope="row"
                                         class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{$user->name}}</th>
@@ -109,12 +109,16 @@
                                     <td class="px-4 py-3">{{$user->group->name}}</td>
                                     <td class="px-4 py-3">{{$user->region_point->region_center->region_county->name}}</td>
                                     <td class="px-4 py-3 flex items-center justify-end">
-                                        <button onClick="confirm('Are you sure?')" wire:click="delete({{$user->id}})"
-                                                class="px-3 py-1 bg-red-500 text-white rounded">X
+                                        <button onClick="confirm('مطمئن هستید؟')" wire:click="delete({{$user->id}})"
+                                                class="px-1 py-1 bg-red-200 text-black rounded m-1">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                                 stroke="currentColor" class="w-5 h-5">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                                            </svg>
                                         </button>
-                                        -
+
                                         <button wire:click.lazy="editUser({{$user}})"
-                                                class="px-1 py-1 bg-green-500 text-white rounded">
+                                                class="px-1 py-1 bg-green-200 text-black rounded m-1">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                  stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                                                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -130,19 +134,18 @@
                         </table>
                     </div>
 
-                    <x-my-modal name="edit-user" title="Edit User">
+                    <x-my-modal name="edit-user" title="ویرایش کاربر">
                         <x-slot:body>
                             @if($selectedUser)
-                                <h1>{{$selectedUser->name}}</h1>
                                 <livewire:edit-user :selectedUser="$selectedUser" wire:key="{{$selectedUser->id}}"/>
                             @endif
                         </x-slot:body>
                     </x-my-modal>
 
-                    <div class="py-4 px-3">
+                    <div class="py-4 px-3" dir="ltr">
                         <div class="flex ">
                             <div class="flex space-x-4 items-center mb-3">
-                                <label class="w-32 text-sm font-medium text-gray-900">Per Page</label>
+                                <label class="w-32 text-sm font-medium text-gray-900">تعداد</label>
                                 <select
                                     wire:model.live="perPage"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
