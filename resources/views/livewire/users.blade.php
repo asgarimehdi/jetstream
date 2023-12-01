@@ -117,7 +117,7 @@
                                             </svg>
                                         </button>
 
-                                        <button wire:click.lazy="editUser({{$user}})"
+                                        <button wire:click="editUser({{$user}})"
                                                 class="px-1 py-1 bg-green-200 text-black rounded m-1">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                  stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
@@ -137,7 +137,7 @@
                     <x-my-modal name="edit-user" title="ویرایش کاربر">
                         <x-slot:body>
                             @if($selectedUser)
-                                <livewire:edit-user :selectedUser="$selectedUser" wire:key="{{$selectedUser->id}}"/>
+                                <livewire:edit-user :selectedUser="$selectedUser" wire:key="{{ rand() }}"/>
                             @endif
                         </x-slot:body>
                     </x-my-modal>

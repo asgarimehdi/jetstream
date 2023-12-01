@@ -11,6 +11,7 @@ class EditUser extends Component
 {
     /** @locked  */
     public $id;
+    public $oldPassword;
     public $roles = '';
     #[Rule('required')]
     public $role_id = '';
@@ -34,7 +35,7 @@ class EditUser extends Component
     public $username = '';
     #[Rule('required|min:6|max:50')]
     public $name = '';
-    #[Rule('required|min:8')]
+    #[Rule('sometimes|min:8')]
     public $password = '';
 
     public function rules()
@@ -47,15 +48,28 @@ class EditUser extends Component
     {
         //error handling try catch must implement
         $validatedData=$this->validate();
-        User::find($this->id)->update([
-            'name'=>$validatedData['name'],
-            'username' => $validatedData['username'],
-            'role_id' => $validatedData['role_id'],
-            'point_id' => $validatedData['point_id'],
-            'group_id' => $validatedData['group_id'],
-            'password' => Hash::make($validatedData['password'])
-        ]);
-        $this->reset(['name', 'username', 'password', 'role_id', 'group_id', 'point_id', 'center_id', 'county_id', 'type_id']);
+        if($this->password=='')
+        {
+            User::find($this->id)->update([
+                'name'=>$validatedData['name'],
+                'username' => $validatedData['username'],
+                'role_id' => $validatedData['role_id'],
+                'point_id' => $validatedData['point_id'],
+                'group_id' => $validatedData['group_id'],
+            ]);
+        }
+        else{
+            User::find($this->id)->update([
+                'name'=>$validatedData['name'],
+                'username' => $validatedData['username'],
+                'role_id' => $validatedData['role_id'],
+                'point_id' => $validatedData['point_id'],
+                'group_id' => $validatedData['group_id'],
+                'password' => Hash::make($validatedData['password'])
+            ]);
+        }
+
+        $this->reset(['id','name', 'username', 'password', 'role_id', 'group_id', 'point_id', 'center_id', 'county_id', 'type_id']);
         request()->session()->flash('success', 'کاربر با موفقیت ویرایش شد');
         $this->dispatch('close-modal', name: 'edit-user');
     }
@@ -72,7 +86,7 @@ class EditUser extends Component
         $this->center_id = $selectedUser->region_point->center_id;
         $this->county_id = $selectedUser->region_point->region_center->county_id;
         $this->type_id = $selectedUser->region_point->region_center->type_id;
-//        $this->password = $selectedUser->password;
+        $this->oldPassword = $selectedUser->password;
 //        $this->password_confirmation = $selectedUser->password;
         $this->roles = \App\Models\Roles::all();
         $this->groups = \App\Models\Groups::all();
@@ -84,19 +98,18 @@ class EditUser extends Component
 
     public function updatedcountyId()
     {
-
-        $this->reset(['point_id', 'center_id', 'type_id']);
+        $this->reset(['point_id','points', 'center_id','centers', 'type_id']);
     }
 
     public function updatedtypeId()
     {
-        $this->reset(['point_id', 'center_id']);
+        $this->reset(['point_id','points', 'center_id','centers']);
         $this->centers = \App\Models\Region_centers::where('county_id', $this->county_id)->where('type_id', $this->type_id)->get();
     }
 
     public function updatedcenterId()
     {
-        $this->reset(['point_id']);
+        $this->reset(['point_id','points']);
         $this->points = \App\Models\Region_points::where('center_id', $this->center_id)->get();
     }
 
