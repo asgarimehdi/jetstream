@@ -86,7 +86,7 @@ class EditUser extends Component
         $this->center_id = $selectedUser->region_point->center_id;
         $this->county_id = $selectedUser->region_point->region_center->county_id;
         $this->type_id = $selectedUser->region_point->region_center->type_id;
-        $this->oldPassword = $selectedUser->password;
+//        $this->oldPassword = $selectedUser->password;
 //        $this->password_confirmation = $selectedUser->password;
         $this->roles = \App\Models\Roles::all();
         $this->groups = \App\Models\Groups::all();
