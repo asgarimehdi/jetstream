@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\Region_centers;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Component;
@@ -90,9 +91,15 @@ class CreateUser extends Component
     }
     public function updatedTypeId()
     {
-        $this->centers = \App\Models\Region_centers::
+
+        $this->centers = Region_centers::
         where('county_id', $this->county_id)
-            ->where('type_id', $this->type_id)
+            ->when(($this->type_id=='5'),function($query){ // agar khane bood faghat markaz rostaei va ...
+                $query->whereIn('type_id', [3,4]);
+            })
+            ->when(($this->type_id=='6'),function($query){ // agar paygah bood faghat shahri
+                $query->whereIn('type_id', [2,4]);
+            })
             ->get();
         $this->reset(['point_id','center_id']);
 
