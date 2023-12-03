@@ -56,32 +56,54 @@ class CreateUser extends Component
     public function mount()
     {
         $this->roles = \App\Models\Roles::all();
-        $this->groups = \App\Models\Groups::all();
+
         $this->counties = \App\Models\Region_counties::all();
-
     }
-
-    public function updatedcountyId()
+    public function updatedCountyId()
     {
-        $this->types = \App\Models\Region_types::all();
+        $this->groups = \App\Models\Groups::select('*')
+        ->when($this->county_id=='9',function($query){
+            $query->where('id','!=','6')->where('id','!=','8');
+        })
+        ->get();
+
+        $this->reset(['point_id','center_id','type_id','group_id']);
+    }
+    public function updatedGroupId()
+    {
+        $this->types = \App\Models\Region_types::select('*')
+
+//            ->when(($this->group_id=='1')or($this->group_id=='2')or($this->group_id=='3')or($this->group_id=='4')or($this->group_id=='5')or($this->group_id=='7'),function($query){
+            ->when(in_array($this->group_id,[1,2,3,4,5,7]),function($query){ // agar grohe setadi bod faghat shabake neshan bede
+//                $query->whereNotIn('id', [2,3,4,5,6,7,8,9,10,11,12]);
+                $query->where('id',1);
+            })
+            ->when(($this->group_id=='6'),function($query){ // agar behvarz bod faghat khane va paygah
+                $query->whereIn('id', [5,6]);
+            })
+            ->when(($this->group_id=='8'),function($query){ // agar nazer bod faghat marakez rostaei
+                $query->whereIn('id', [3,4]);
+            })
+
+            ->get();
         $this->reset(['point_id','center_id','type_id']);
     }
-
-    public function updatedtypeId()
+    public function updatedTypeId()
     {
-        $this->reset(['point_id','center_id']);
         $this->centers = \App\Models\Region_centers::
         where('county_id', $this->county_id)
             ->where('type_id', $this->type_id)
             ->get();
+        $this->reset(['point_id','center_id']);
+
     }
 
-    public function updatedcenterId()
+    public function updatedCenterId()
     {
-        $this->reset(['point_id']);
         $this->points = \App\Models\Region_points::
         where('center_id', $this->center_id)
             ->get();
+        $this->reset(['point_id']);
     }
 
     public function render()
