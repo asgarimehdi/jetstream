@@ -11,7 +11,7 @@
 
                 <x-my-modal name="test" title="map">
                     <x-slot:body>
-                        <livewire:map/>
+
                     </x-slot:body>
                 </x-my-modal>
                 <x-my-modal name="new-user" title="کاربر جدید">
@@ -28,7 +28,10 @@
                         class="px-3 py-1 bg-teal-500 text-white rounded">
                     new-user
                 </button>
+<div>
+    <livewire:map/>
 
+</div>
 
                 <x-welcome/>
             </div>
