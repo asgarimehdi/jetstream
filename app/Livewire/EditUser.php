@@ -2,6 +2,12 @@
 
 namespace App\Livewire;
 
+use App\Models\Groups;
+use App\Models\Region_centers;
+use App\Models\Region_counties;
+use App\Models\Region_points;
+use App\Models\Region_types;
+use App\Models\Roles;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Component;
@@ -88,29 +94,135 @@ class EditUser extends Component
         $this->type_id = $selectedUser->region_point->region_center->type_id;
 //        $this->oldPassword = $selectedUser->password;
 //        $this->password_confirmation = $selectedUser->password;
-        $this->roles = \App\Models\Roles::all();
-        $this->groups = \App\Models\Groups::all();
-        $this->counties = \App\Models\Region_counties::all();
-        $this->types = \App\Models\Region_types::all();
-        $this->centers = \App\Models\Region_centers::where('county_id', $this->county_id)->where('type_id', $this->type_id)->get();
-        $this->points = \App\Models\Region_points::where('center_id', $this->center_id)->get();
+        $this->roles = Roles::all();
+        $this->counties = Region_counties::all();
+        $this->groups = Groups::select('*')
+            ->when($this->county_id=='9',function($query){
+                $query->where('id','!=','6')->where('id','!=','8');
+            })
+            ->get();
+
+        if($this->county_id=='9'){ //agar ostan bood
+            $this->types = Region_types::select('*')->where('id',11)->get();
+        }
+        else{ // agar ostan nabood
+            $this->types = Region_types::select('*')
+//            ->when(($this->group_id=='1')or($this->group_id=='2')or($this->group_id=='3')or($this->group_id=='4')or($this->group_id=='5')or($this->group_id=='7'),function($query){
+                ->when(in_array($this->group_id,[1,2,3,4,7]),function($query){ // agar grohe setadi bod faghat shabake neshan bede
+//                $query->whereNotIn('id', [2,3,4,5,6,7,8,9,10,11,12]);
+                    $query->where('id',1);
+                })
+                ->when(($this->group_id=='6'),function($query){ // agar behvarz bod faghat khane va paygah
+                    $query->whereIn('id', [5,6]);
+                })
+                ->when(($this->group_id=='8'),function($query){ // agar nazer bod faghat marakez rostaei
+                    $query->whereIn('id', [3,4]);
+                })
+                ->when(($this->group_id=='5'),function($query){ // agar behdasht mohit bod faghat marakez va shabake
+                    $query->whereIn('id', [1,2,3,4]);
+                })
+                ->get();
+        }
+
+        $this->centers = Region_centers::
+        where('county_id', $this->county_id)
+            ->when(($this->type_id=='5'),function($query){ // agar khane bood faghat markaz rostaei va ...
+                $query->whereIn('type_id', [3,4]);
+            })
+            ->when(($this->type_id=='6'),function($query){ // agar paygah bood faghat shahri
+                $query->whereIn('type_id', [2,4]);
+            })
+            ->when(($this->type_id=='1'),function($query){ //
+                $query->whereIn('type_id', [1]);
+            })
+            ->when(($this->type_id=='2'),function($query){ //
+                $query->whereIn('type_id', [2]);
+            })
+            ->when(($this->type_id=='3'),function($query){ //
+                $query->whereIn('type_id', [3]);
+            })
+            ->when(($this->type_id=='4'),function($query){ //
+                $query->whereIn('type_id', [4]);
+            })
+            ->get();
+         $this->points = Region_points::
+        where('center_id', $this->center_id)
+            ->where('type_id', $this->type_id) // faghat nogati ke type onha ba noe entekhab shode yeki bashe
+
+            ->get();
     }
 
-    public function updatedcountyId()
+    public function updatedCountyId()
     {
-        $this->reset(['point_id','points', 'center_id','centers', 'type_id']);
+        $this->groups = Groups::select('*')
+            ->when($this->county_id=='9',function($query){
+                $query->where('id','!=','6')->where('id','!=','8');
+            })
+            ->get();
+
+        $this->reset(['point_id','center_id','type_id','group_id']);
+    }
+    public function updatedGroupId()
+    {
+        if($this->county_id=='9'){ //agar ostan bood
+            $this->types = Region_types::select('*')->where('id',11)->get();
+        }
+        else{ // agar ostan nabood
+            $this->types = Region_types::select('*')
+//            ->when(($this->group_id=='1')or($this->group_id=='2')or($this->group_id=='3')or($this->group_id=='4')or($this->group_id=='5')or($this->group_id=='7'),function($query){
+                ->when(in_array($this->group_id,[1,2,3,4,7]),function($query){ // agar grohe setadi bod faghat shabake neshan bede
+//                $query->whereNotIn('id', [2,3,4,5,6,7,8,9,10,11,12]);
+                    $query->where('id',1);
+                })
+                ->when(($this->group_id=='6'),function($query){ // agar behvarz bod faghat khane va paygah
+                    $query->whereIn('id', [5,6]);
+                })
+                ->when(($this->group_id=='8'),function($query){ // agar nazer bod faghat marakez rostaei
+                    $query->whereIn('id', [3,4]);
+                })
+                ->when(($this->group_id=='5'),function($query){ // agar behdasht mohit bod faghat marakez va shabake
+                    $query->whereIn('id', [1,2,3,4]);
+                })
+                ->get();
+        }
+        $this->reset(['point_id','center_id','type_id']);
+    }
+    public function updatedTypeId()
+    {
+
+        $this->centers = Region_centers::
+        where('county_id', $this->county_id)
+            ->when(($this->type_id=='5'),function($query){ // agar khane bood faghat markaz rostaei va ...
+                $query->whereIn('type_id', [3,4]);
+            })
+            ->when(($this->type_id=='6'),function($query){ // agar paygah bood faghat shahri
+                $query->whereIn('type_id', [2,4]);
+            })
+            ->when(($this->type_id=='1'),function($query){ //
+                $query->whereIn('type_id', [1]);
+            })
+            ->when(($this->type_id=='2'),function($query){ //
+                $query->whereIn('type_id', [2]);
+            })
+            ->when(($this->type_id=='3'),function($query){ //
+                $query->whereIn('type_id', [3]);
+            })
+            ->when(($this->type_id=='4'),function($query){ //
+                $query->whereIn('type_id', [4]);
+            })
+            ->get();
+        $this->reset(['point_id','center_id']);
+
     }
 
-    public function updatedtypeId()
+    public function updatedCenterId()
     {
-        $this->reset(['point_id','points', 'center_id','centers']);
-        $this->centers = \App\Models\Region_centers::where('county_id', $this->county_id)->where('type_id', $this->type_id)->get();
-    }
+        $this->points = Region_points::
+        where('center_id', $this->center_id)
+            ->where('type_id', $this->type_id) // faghat nogati ke type onha ba noe entekhab shode yeki bashe
 
-    public function updatedcenterId()
-    {
-        $this->reset(['point_id','points']);
-        $this->points = \App\Models\Region_points::where('center_id', $this->center_id)->get();
+            ->get();
+        $this->reset(['point_id']);
     }
 
     public function render()

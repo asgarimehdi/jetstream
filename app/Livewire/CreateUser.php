@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Region_centers;
+use App\Models\Region_types;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Component;
@@ -72,10 +73,13 @@ class CreateUser extends Component
     }
     public function updatedGroupId()
     {
-        $this->types = \App\Models\Region_types::select('*')
-
+        if($this->county_id=='9'){ //agar ostan bood
+            $this->types = Region_types::select('*')->where('id',11)->get();
+        }
+        else{ // agar ostan nabood
+        $this->types = Region_types::select('*')
 //            ->when(($this->group_id=='1')or($this->group_id=='2')or($this->group_id=='3')or($this->group_id=='4')or($this->group_id=='5')or($this->group_id=='7'),function($query){
-            ->when(in_array($this->group_id,[1,2,3,4,5,7]),function($query){ // agar grohe setadi bod faghat shabake neshan bede
+            ->when(in_array($this->group_id,[1,2,3,4,7]),function($query){ // agar grohe setadi bod faghat shabake neshan bede
 //                $query->whereNotIn('id', [2,3,4,5,6,7,8,9,10,11,12]);
                 $query->where('id',1);
             })
@@ -85,8 +89,11 @@ class CreateUser extends Component
             ->when(($this->group_id=='8'),function($query){ // agar nazer bod faghat marakez rostaei
                 $query->whereIn('id', [3,4]);
             })
-
+            ->when(($this->group_id=='5'),function($query){ // agar behdasht mohit bod faghat marakez va shabake
+                $query->whereIn('id', [1,2,3,4]);
+            })
             ->get();
+        }
         $this->reset(['point_id','center_id','type_id']);
     }
     public function updatedTypeId()
@@ -100,6 +107,18 @@ class CreateUser extends Component
             ->when(($this->type_id=='6'),function($query){ // agar paygah bood faghat shahri
                 $query->whereIn('type_id', [2,4]);
             })
+            ->when(($this->type_id=='1'),function($query){ //
+                $query->whereIn('type_id', [1]);
+            })
+            ->when(($this->type_id=='2'),function($query){ //
+                $query->whereIn('type_id', [2]);
+            })
+            ->when(($this->type_id=='3'),function($query){ //
+                $query->whereIn('type_id', [3]);
+            })
+            ->when(($this->type_id=='4'),function($query){ //
+                $query->whereIn('type_id', [4]);
+            })
             ->get();
         $this->reset(['point_id','center_id']);
 
@@ -109,6 +128,8 @@ class CreateUser extends Component
     {
         $this->points = \App\Models\Region_points::
         where('center_id', $this->center_id)
+        ->where('type_id', $this->type_id) // faghat nogati ke type onha ba noe entekhab shode yeki bashe
+
             ->get();
         $this->reset(['point_id']);
     }
