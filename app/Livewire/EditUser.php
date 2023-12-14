@@ -9,6 +9,7 @@ use App\Models\Region_points;
 use App\Models\Region_types;
 use App\Models\Roles;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Component;
 use Livewire\Attributes\Rule;
@@ -17,6 +18,7 @@ class EditUser extends Component
 {
     /** @locked  */
     public $id;
+    public $user_county_id=  '';
     public $oldPassword;
     public $roles = '';
     #[Rule('required')]
@@ -82,7 +84,7 @@ class EditUser extends Component
 
     public function mount(User $selectedUser)
     {
-
+        $this->user_county_id=Auth::user()->region_point->region_center->county_id;
         $this->id=$selectedUser->id;
         $this->name = $selectedUser->name;
         $this->username = $selectedUser->username;
@@ -95,7 +97,11 @@ class EditUser extends Component
 //        $this->oldPassword = $selectedUser->password;
 //        $this->password_confirmation = $selectedUser->password;
         $this->roles = Roles::all();
-        $this->counties = Region_counties::all();
+        $this->counties = Region_counties::select('*')
+            ->when($this->user_county_id!='9',function($query){
+                $query->where('id','=',$this->user_county_id);
+            })
+            ->get();
         $this->groups = Groups::select('*')
             ->when($this->county_id=='9',function($query){
                 $query->where('id','!=','6')->where('id','!=','8');

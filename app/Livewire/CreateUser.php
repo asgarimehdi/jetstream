@@ -2,15 +2,20 @@
 
 namespace App\Livewire;
 
+use App\Models\Groups;
 use App\Models\Region_centers;
+use App\Models\Region_counties;
 use App\Models\Region_types;
+use App\Models\Roles;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Component;
 use Livewire\Attributes\Rule;
 class CreateUser extends Component
 {
     public $roles = '';
+    public $user_county_id=  '';
     #[Rule('required')]
     public $role_id = '';
     public $groups = '';
@@ -57,13 +62,20 @@ class CreateUser extends Component
 
     public function mount()
     {
-        $this->roles = \App\Models\Roles::all();
+        $this->user_county_id=Auth::user()->region_point->region_center->county_id;
+        $this->roles = Roles::all();
 
-        $this->counties = \App\Models\Region_counties::all();
+        $this->counties = Region_counties::select('*')
+            ->when($this->user_county_id!='9',function($query){
+                $query->where('id','=',$this->user_county_id);
+            })
+            ->get();
+
+
     }
     public function updatedCountyId()
     {
-        $this->groups = \App\Models\Groups::select('*')
+        $this->groups = Groups::select('*')
         ->when($this->county_id=='9',function($query){
             $query->where('id','!=','6')->where('id','!=','8');
         })
