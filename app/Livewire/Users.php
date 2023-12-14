@@ -2,6 +2,8 @@
 
 namespace App\Livewire;
 
+use App\Models\Groups;
+use App\Models\Region_counties;
 use App\Models\Roles;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -38,9 +40,9 @@ class Users extends Component
     public User $selectedUser;
     public function mount(){
 
-        $this->roles=\App\Models\Roles::all();
-        $this->groups=\App\Models\Groups::all();
-        $this->counties=\App\Models\Region_counties::all();
+        $this->roles=Roles::all();
+        $this->groups=Groups::all();
+        $this->counties=Region_counties::all();
     }
     public function updatedSearch()
     {

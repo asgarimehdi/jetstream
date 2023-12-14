@@ -88,12 +88,11 @@
                                     'name'=>'group_id',
                                     'displayName'=>'گروه'
                                 ])
-                                @include('livewire.includes.table-sortable-th',[
-                                    'name'=>'point_id',
-                                    'displayName'=>'شهرستان'
-                                ])
                                 <th scope="col" class="px-4 py-3">
-                                    <span class="sr-only">Actions</span>
+                                    <button class="flex items-center">شهرستان</button>
+                                </th>
+                                <th scope="col" class="px-4 py-3">
+
                                 </th>
                             </tr>
                             </thead>
