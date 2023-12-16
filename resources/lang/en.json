@@ -1,5 +1,16 @@
 {
 
-    "Profile":"تنظیمات کاربری"
+    "Profile":"تنظیمات کاربری",
+    "username":"نام کاربری",
+    "Password":"پسورد",
+    "Remember me":"به خاطر بسپار",
+    "Log in":"ورود",
+    "Whoops! Something went wrong.":"خطایی رخ داده است",
+    "Log Out":"خروج",
+    "Current Password":"پسور فعلی",
+    "New Password":"پسورد جدید",
+    "Confirm Password":"تکرار پسورد جدید",
+    "Update Password":"تغییر پسورد",
+    "Save":"ذخیره"
 
 }
