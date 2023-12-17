@@ -2,7 +2,7 @@
 
     "Profile":"تنظیمات کاربری",
     "username":"نام کاربری",
-    "Password":"پسورد",
+    "Password":"رمز ورود",
     "Remember me":"به خاطر بسپار",
     "Log in":"ورود",
     "Whoops! Something went wrong.":"خطایی رخ داده است",
@@ -29,5 +29,14 @@
     "This password does not match our records.":"پسورد وارد شده اشتباه است",
     "For your security, please confirm your password to continue.":"برای امنیت خودتان رمز ورود را مجدد وارد نمائید",
     "To finish enabling two factor authentication, scan the following QR code using your phone's authenticator application or enter the setup key and provide the generated OTP code.":"برای پایان راه اندازی کد زیر را با استفاده از برنامه گوگل آتنیتیکیتر اسکن کنید",
-    "Two factor authentication is now enabled. Scan the following QR code using your phone\\'s authenticator application or enter the setup key.":"ورود دو مرحله ای فعال شده برای استفاده از آن کد زیر را در گوشی اسکن کنید"
+    "Two factor authentication is now enabled. Scan the following QR code using your phone\\'s authenticator application or enter the setup key.":"ورود دو مرحله ای فعال شده برای استفاده از آن کد زیر را در گوشی اسکن کنید",
+    "Manage Account":"مدیریت پروفایل",
+    "Browser Sessions":"جلسه مرورگر",
+    "Manage and log out your active sessions on other browsers and devices.":"خروج از سایر مرورگر ها و دستگاه ها",
+    "If necessary, you may log out of all of your other browser sessions across all of your devices. Some of your recent sessions are listed below; however, this list may not be exhaustive. If you feel your account has been compromised, you should also update your password.":"خروج از همه دستگاه ها و مرورگرها. در صورت نیاز پسورد خود را عوض کنید",
+    "Unknown":"ناشناس",
+    "This device":"این دستگاه",
+    "Log Out Other Browser Sessions":"خروج از سایر مرورگرها",
+    "Please enter your password to confirm you would like to log out of your other browser sessions across all of your devices.":"لطفا پسورد را وارد نمائید تا از همه دستگاه ها خارج شوید",
+    "Done.":"پایان"
 }
